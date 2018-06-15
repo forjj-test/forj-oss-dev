@@ -1,0 +1,56 @@
+deploy:
+  deployment:
+    serviceaddr: localhost
+    serviceport: "8080"
+    to: docker
+  name: dev
+  type: DEV
+  ssl:
+    method: none
+features:
+- feature:jenkins-init
+- feature:proxy
+- feature:seed-job
+- feature:basic-security
+- feature:jenkins-pipeline
+- plugin:managed-scripts
+- plugin:embeddable-build-status
+- plugin:config-file-provider
+- feature:csrf
+- plugin:timestamper
+- plugin:mask-passwords
+- plugin:blueocean
+- plugin:blueocean-github-pipeline
+- feature:multibranch-github-pipeline
+- feature:yet-another-docker-plugin
+dockerfile:
+  fromimage: forjdevops/jenkins
+  fromimageversion: ""
+  maintainer: ""
+jenkinsimage:
+  name: forj-oss-jenkins
+  registryreponame: forj-oss
+  registryserver: hub.docker.com
+  version: ""
+projects:
+  dsl-repo: https://github.com/forjj-test/forj-oss-dev
+  dsl-path: jenkins/jobs-dsl
+  dsl-default: true
+  list:
+    forj-oss-dev:
+      name: forj-oss-dev
+      sourcetype: github
+      github:
+        apiurl: https://api.github.com/
+        repo: forj-oss-dev
+        repoowner: forjj-test
+    forjj-examples:
+      name: forjj-examples
+      sourcetype: github
+      github:
+        apiurl: https://api.github.com/
+        repo: forjj-examples
+        repoowner: forjj-test
+github-user:
+  name: clarsonneur
+appextent: {}
