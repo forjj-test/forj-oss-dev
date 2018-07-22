@@ -7,6 +7,15 @@ repos:
     name: forj-oss-dev
     description: Deployment source code for Dev environment
     issue_tracker: true
+    webhooks:
+      jenkins-github:
+        url: http://jenkins-forjj.eastus.cloudapp.azure.com:8080/github-webhook/
+        events:
+        - pull_request
+        - push
+        enabled: "true"
+        sslcheck: true
+        contenttype: form
     webhookpolicy: sync
     role: deploy
     owner: forjj-test
@@ -24,6 +33,15 @@ repos:
     name: forjj-examples
     description: An example repository for DEV environment
     issue_tracker: true
+    webhooks:
+      jenkins-github:
+        url: http://jenkins-forjj.eastus.cloudapp.azure.com:8080/github-webhook/
+        events:
+        - pull_request
+        - push
+        enabled: "true"
+        sslcheck: true
+        contenttype: form
     webhookpolicy: sync
     role: code
     owner: forjj-test

@@ -1,10 +1,20 @@
-#!/bin/sh
+#!/bin/bash -x
 #
 #
 
 REPO=$LOGNAME
 IMAGE_NAME="forj-oss-jenkins"
-IMAGE_VERSION=test
+REPO=forj-oss
+
+OFFICIAL_VERSION=V0
+
+if [[ "$DEV_USER" = "" ]]
+then
+    echo "Not used in Forjj context. Using $LOGNAME as DEV_USER"
+    DEV_USER=$LOGNAME
+fi
+
+IMAGE_VERSION="$DEV_USER"-$OFFICIAL_VERSION
 
 
 # For Docker Out Of Docker case, a docker run may provides the SRC to use in place of $(pwd)
@@ -42,7 +52,7 @@ fi
 
 if [ "$SERVICE_ADDR" = "" ]
 then
-   SERVICE_ADDR="localhost"
+   SERVICE_ADDR="jenkins-forjj.eastus.cloudapp.azure.com"
    echo "SERVICE_ADDR not defined by any deployment environment. Set to '$SERVICE_ADDR'"
 fi
 if [ "$SERVICE_PORT" = "" ]
@@ -51,7 +61,7 @@ then
    echo "SERVICE_PORT not defined by any deployment environment. Set to '$SERVICE_PORT'"
 fi
 
-TAG_NAME=hub.docker.com/$LOGNAME/$IMAGE_NAME:$IMAGE_VERSION
+TAG_NAME=hub.docker.com/$REPO/$IMAGE_NAME:$IMAGE_VERSION
 
 CONTAINER_IMG="$(sudo docker ps -a -f name=forj-oss-jenkins-dood --format "{{ .Image }}")"
 
@@ -59,14 +69,14 @@ IMAGE_ID="$(sudo docker images --format "{{ .ID }}" $IMAGE_NAME)"
 
 if [[ "$ADMIN_PWD" != "" ]]
 then
-   ADMIN="-e SIMPLE_ADMIN_PWD=$ADMIN_PWD"
+   ADMIN="-e SIMPLE_ADMIN_PWD=\"$ADMIN_PWD\""
    unset ADMIN_PWD
    echo "Admin password set."
 fi
 
 if [[ "$GITHUB_USER_PASS" != "" ]]
 then
-   GITHUB_USER="-e GITHUB_PASS=$GITHUB_USER_PASS"
+   GITHUB_USER="-e GITHUB_PASS=\"$GITHUB_USER_PASS\""
    unset GITHUB_USER_PASS
    echo "Github user password set."
 fi
@@ -105,6 +115,6 @@ if [ $? -ne 0 ]
 then
     echo "Issue about jenkins startup."
     sudo docker logs forj-oss-jenkins-dood
-    return 1
+    exit 1
 fi
 echo "Jenkins has been started and should be accessible at http://$SERVICE_ADDR:$SERVICE_PORT"

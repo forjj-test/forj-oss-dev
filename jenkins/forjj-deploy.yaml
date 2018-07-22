@@ -1,6 +1,6 @@
 deploy:
   deployment:
-    serviceaddr: localhost
+    serviceaddr: jenkins-forjj.eastus.cloudapp.azure.com
     serviceport: "8080"
     to: docker
   name: dev
@@ -12,16 +12,19 @@ features:
 - feature:proxy
 - feature:seed-job
 - feature:basic-security
+- feature:tcp-slave-agent-port
 - feature:jenkins-pipeline
 - plugin:managed-scripts
 - plugin:embeddable-build-status
-- plugin:config-file-provider
+- feature:credentials
 - feature:csrf
+- plugin:config-file-provider
+- feature:multibranch-github-pipeline
 - plugin:timestamper
 - plugin:mask-passwords
 - plugin:blueocean
 - plugin:blueocean-github-pipeline
-- feature:multibranch-github-pipeline
+- plugin:ws-cleanup
 - feature:yet-another-docker-plugin
 dockerfile:
   fromimage: forjdevops/jenkins
