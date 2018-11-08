@@ -11,10 +11,7 @@ ENV JENKINS_SLAVE_AGENT_PORT=50000 \
     BUILD_DSL_SCRIPTS=jenkins/jobs-dsl/*.groovy \
     GITHUB_USER=clarsonneur
 
-USER root
-
-COPY install_dood.sh /tmp
-RUN /tmp/install_dood.sh $DOOD_DOCKER_GROUP
+COPY *.crt /var/jenkins_home
 
 ARG JENKINS_INSTALL_INITS_URL=https://github.com/forj-oss/jenkins-install-inits
 
@@ -26,4 +23,3 @@ RUN git clone $JENKINS_INSTALL_INITS_URL /tmp/jenkins-install-inits && \
 
 RUN chown -R jenkins:jenkins $JENKINS_HOME /usr/share/jenkins/ref
 
-USER jenkins

@@ -9,7 +9,7 @@ repos:
     issue_tracker: true
     webhooks:
       jenkins-github:
-        url: http://jenkins-forjj.eastus.cloudapp.azure.com:8080/github-webhook/
+        url: https://jenkins-forjj.eastus.cloudapp.azure.com:8443/github-webhook/
         events:
         - pull_request
         - push
@@ -35,7 +35,7 @@ repos:
     issue_tracker: true
     webhooks:
       jenkins-github:
-        url: http://jenkins-forjj.eastus.cloudapp.azure.com:8080/github-webhook/
+        url: https://jenkins-forjj.eastus.cloudapp.azure.com:8443/github-webhook/
         events:
         - pull_request
         - push
